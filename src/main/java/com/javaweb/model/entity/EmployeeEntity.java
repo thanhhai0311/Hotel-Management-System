@@ -2,6 +2,7 @@ package com.javaweb.model.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Employee")
@@ -35,6 +36,17 @@ public class EmployeeEntity {
     @ManyToOne
     @JoinColumn(name = "idRole")
     private RoleEntity role;
+    
+    @OneToMany(mappedBy = "employee")
+    private List<EvaluateEntity> evaluates;
+    
+    @OneToMany(mappedBy = "employee")
+    private List<ShiftingEntity> shiftings;
+    
+    @OneToMany(mappedBy = "employee")
+    private List<DoingServiceEntity> doingServices;
+    
+    
 
 	public Integer getId() {
 		return id;
@@ -108,5 +120,30 @@ public class EmployeeEntity {
 		this.role = role;
 	}
 
+	public List<EvaluateEntity> getEvaluates() {
+		return evaluates;
+	}
+
+	public void setEvaluates(List<EvaluateEntity> evaluates) {
+		this.evaluates = evaluates;
+	}
+
+	public List<ShiftingEntity> getShiftings() {
+		return shiftings;
+	}
+
+	public void setShiftings(List<ShiftingEntity> shiftings) {
+		this.shiftings = shiftings;
+	}
+
+	public List<DoingServiceEntity> getDoingServices() {
+		return doingServices;
+	}
+
+	public void setDoingServices(List<DoingServiceEntity> doingServices) {
+		this.doingServices = doingServices;
+	}
+
+	
     
 }
