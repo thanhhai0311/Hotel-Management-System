@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Built-By: Admin
-Build-Jdk: 21.0.6
+Built-By: BSS GROUP
+Build-Jdk: 21.0.8
 Implementation-Title: hotel-management-system
 Implementation-Version: 1.0
 Implementation-Vendor-Id: com.hotelmanagement

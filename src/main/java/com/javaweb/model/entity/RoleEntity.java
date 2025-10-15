@@ -17,7 +17,7 @@ public class RoleEntity {
     @Column(name = "details")
     private String details;
     
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "role")
     private List<EmployeeEntity> employees;
 
 	public Integer getId() {
