@@ -1,15 +1,17 @@
-package com.javaweb.secutiry;
+package com.javaweb.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.security.Key;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "hotel_management_hotel";
-    private final long EXPIRATION_TIME = 86400000; // 1 day
+    private final String SECRET_KEY = "hotel_management_system_secret_key_1234567890123456"; // ít nhất 32 ký tự
+    private final long EXPIRATION_TIME = 86400000; // 1 ngày
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -24,7 +26,7 @@ public class JwtUtil {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-    
+
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -33,22 +35,22 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
-    
-    public String extractRole(String token) {
-        return (String) Jwts.parserBuilder()
+
+    public boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("role");
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
+                .getExpiration();
     }
 }

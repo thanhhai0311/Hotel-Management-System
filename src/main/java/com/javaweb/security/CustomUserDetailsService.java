@@ -1,4 +1,4 @@
-package com.javaweb.secutiry;
+package com.javaweb.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         CustomerEntity customer = customerRepository.findByEmail(username).orElse(null);
         if (customer != null) {
             return User.builder()
